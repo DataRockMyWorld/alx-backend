@@ -13,9 +13,14 @@ If the input arguments are out of range for the dataset, an empty list should
 be returned.
 """
 import csv
-import math
 from typing import List, Tuple
-index_range = __import__('0-simple_helper_function').index_range
+
+
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """
+    Function that returns a tuple of size two
+    """
+    return ((page - 1) * page_size, page * page_size)
 
 
 class Server:
