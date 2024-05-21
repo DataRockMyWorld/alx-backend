@@ -23,14 +23,16 @@ self.cache_data, return None.
 """
 
 
-BaseCaching = __import__("base_caching").BaseCaching
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class MRUCache(BaseCaching):
-    """_summary_"""
+    """_summary_
+    """
 
     def __init__(self):
-        """_summary_"""
+        """_summary_
+        """
         super().__init__()
         self.usedKeys = []
 
@@ -46,11 +48,12 @@ class MRUCache(BaseCaching):
             if key not in self.usedKeys:
                 self.usedKeys.append(key)
             else:
-                self.usedKeys.append(self.usedKeys.pop(self.usedKeys.index(key)))
+                self.usedKeys.append(
+                    self.usedKeys.pop(self.usedKeys.index(key)))
             if len(self.usedKeys) > BaseCaching.MAX_ITEMS:
                 discard = self.usedKeys.pop(-2)
                 del self.cache_data[discard]
-                print("DISCARD: {:s}".format(discard))
+                print('DISCARD: {:s}'.format(discard))
 
     def get(self, key):
         """return the value in self.cache_data linked to key
