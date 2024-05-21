@@ -11,7 +11,7 @@ def get(self, key):
     Must return the value in self.cache_data linked to key.
     If key is None or if the key doesn’t exist in self.cache_data, return None.
 """
-from base_caching import BaseCaching
+BaseCaching = __import__("base_caching").BaseCaching
 
 
 class BasicCache(BaseCaching):
