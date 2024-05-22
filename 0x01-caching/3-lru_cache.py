@@ -15,44 +15,48 @@ def put(self, key, item):
 def get(self, key):
     Must return the value in self.cache_data linked to key.
     If key is None or if the key doesn’t exist in self.cache_data, return None
-
 """
 BaseCaching = __import__("base_caching").BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """_summary_"""
+    """LRUCache class implements a caching system with LRU eviction policy."""
 
     def __init__(self):
-        """_summary_"""
+        """Initialize the LRUCache."""
         super().__init__()
-        self.usedKeys = []
+        self.used_keys = []
 
     def put(self, key, item):
-        """_summary_
+        """Add an item in the cache.
 
         Args:
-            key (_type_): _description_
-            item (_type_): _description_
+            key: The key to add.
+            item: The item to add.
         """
         if key is not None and item is not None:
             self.cache_data[key] = item
-            if key not in self.usedKeys:
-                self.usedKeys.append(key)
+            if key not in self.used_keys:
+                self.used_keys.append(key)
             else:
-                us_k = self.usedKeys.pop(self.usedKeys.index(key))
-                self.usedKeys.append(us_k)
-            if len(self.usedKeys) > BaseCaching.MAX_ITEMS:
-                discard = self.usedKeys.pop(0)
+                # Move the key to the end to show that it was recently used
+                pop_key = self.used_keys.pop(self.used_keys.index(key))
+                self.used_keys.append(pop_key)
+            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+                # Remove the first item in the list (the least recently used)
+                discard = self.used_keys.pop(0)
                 del self.cache_data[discard]
+                print(f"DISCARD: {discard}")
 
     def get(self, key):
-        """return the value in self.cache_data linked to key
+        """Return the value in self.cache_data linked to key.
 
         Args:
-            key (_type_): _description_
+            key: The key to retrieve.
         """
-        if key is not None and key in self.cache_data.keys():
-            self.usedKeys.append(self.usedKeys.pop(self.usedKeys.index(key)))
-            return self.cache_data.get(key)
+        if key is not None and key in self.cache_data:
+            # Move the key to the end to show that it was recently used
+            pop_key = self.used_keys.pop(self.used_keys.index(key))
+            self.used_keys.append(pop_key)
+            return self.cache_data[key]
         return None
