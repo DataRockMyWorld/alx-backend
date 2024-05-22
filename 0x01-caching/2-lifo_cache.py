@@ -31,8 +31,9 @@ class LIFOCache(BaseCaching):
     def put(self, key, item):
         """ Add an item in the cache"""
         if key is None or item is None:
-            return
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            pass
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS \
+                and key not in self.cache_data.keys():
             last_key = next(reversed(self.cache_data))
             print("DISCARD: {}".format(last_key))
             del self.cache_data[last_key]
@@ -41,6 +42,6 @@ class LIFOCache(BaseCaching):
     def get(self, key):
         """ Get an item by key
         """
-        if key is None or key not in self.cache_data:
+        if key is None or key not in self.cache_data.keys():
             return None
-        return self.cache_data[key]
+        return self.cache_data.get(key)
